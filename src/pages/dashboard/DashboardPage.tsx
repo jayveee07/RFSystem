@@ -39,7 +39,7 @@ export function DashboardPage() {
         <Card>
           <div className="text-center">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">Dashboard Loading</h2>
-            <p className="text-gray-500 mt-2">Your profile is loading, please wait.</p>
+            <p className="text-gray-500 dark:text-gray-400 mt-2">Your profile is loading, please wait.</p>
           </div>
         </Card>
       </div>

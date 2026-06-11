@@ -61,8 +61,8 @@ export function SettingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
-        <p className="text-gray-500 mt-1">Manage your profile and system configuration</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Settings</h1>
+        <p className="text-gray-500 dark:text-gray-400 mt-1">Manage your profile and system configuration</p>
       </div>
 
       <Card title="Profile" subtitle="Update your personal information">
@@ -81,8 +81,8 @@ export function SettingsPage() {
             value="false"
             onChange={() => {}}
           />
-          <hr className="border-gray-100" />
-          <h4 className="font-medium text-gray-900">Change Password</h4>
+          <hr className="border-gray-100 dark:border-gray-700" />
+          <h4 className="font-medium text-gray-900 dark:text-gray-100">Change Password</h4>
           <Input label="Current Password" type="password" value={passwordForm.current} onChange={(e) => setPasswordForm({ ...passwordForm, current: e.target.value })} />
           <Input label="New Password" type="password" value={passwordForm.new} onChange={(e) => setPasswordForm({ ...passwordForm, new: e.target.value })} />
           <Input label="Confirm New Password" type="password" value={passwordForm.confirm} onChange={(e) => setPasswordForm({ ...passwordForm, confirm: e.target.value })} />

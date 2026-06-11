@@ -86,8 +86,8 @@ export function ApprovalsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Approval Workflow</h1>
-        <p className="text-gray-500 mt-1">Multi-level approval for reconciliations, exceptions, imports</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Approval Workflow</h1>
+        <p className="text-gray-500 dark:text-gray-400 mt-1">Multi-level approval for reconciliations, exceptions, imports</p>
       </div>
 
       <Card>

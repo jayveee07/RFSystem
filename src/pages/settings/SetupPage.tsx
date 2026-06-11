@@ -35,8 +35,8 @@ export function SetupPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">System Setup</h1>
-        <p className="text-gray-500 mt-1">Initialize Firestore with seed data (roles, permissions)</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">System Setup</h1>
+        <p className="text-gray-500 dark:text-gray-400 mt-1">Initialize Firestore with seed data (roles, permissions)</p>
       </div>
 
       <Card title="Database Migration" subtitle="Run this once to seed initial data">
@@ -64,7 +64,7 @@ export function SetupPage() {
           <p className="text-sm text-gray-600">
             If your Auth account exists but there is no Firestore user record yet, enter the Firebase UID below and create an admin user record.
           </p>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
             This UID must be the Firebase Auth user's UID, and the user should already exist in Authentication.
           </p>
 
@@ -95,7 +95,7 @@ export function SetupPage() {
             'audit_logs', 'notifications', 'reports', 'integrations',
             'payment_gateway_transactions', 'invoices', 'purchase_orders',
           ].map((col) => (
-            <div key={col} className="px-3 py-2 bg-gray-50 rounded-lg text-sm font-mono text-gray-700">
+            <div key={col} className="px-3 py-2 bg-gray-50 dark:bg-gray-800 rounded-lg text-sm font-mono text-gray-700">
               {col}
             </div>
           ))}

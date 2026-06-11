@@ -2,7 +2,6 @@ import { Outlet, Navigate } from 'react-router-dom'
 import { Sidebar } from './Sidebar'
 import { Navbar } from './Navbar'
 import { useAuth } from '../../lib/auth'
-import { ThemeProvider } from '../../lib/theme'
 import { RbacProvider } from '../rbac/RbacProvider'
 
 export function Layout() {
@@ -22,19 +21,17 @@ export function Layout() {
   if (!user) return <Navigate to="/login" replace />
 
   return (
-    <ThemeProvider>
-      <RbacProvider>
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100">
-          <Sidebar />
-          <div className="ml-64">
-            <Navbar />
-            <main className="p-6">
-              <Outlet />
-            </main>
-          </div>
+    <RbacProvider>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100">
+        <Sidebar />
+        <div className="ml-64">
+          <Navbar />
+          <main className="p-6">
+            <Outlet />
+          </main>
         </div>
-      </RbacProvider>
-    </ThemeProvider>
+      </div>
+    </RbacProvider>
   )
 }
 

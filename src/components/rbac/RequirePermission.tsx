@@ -1,6 +1,5 @@
 import { Navigate } from 'react-router-dom'
 import { useUserProfile } from '../../lib/profile'
-import type { Permission } from '../../types'
 
 type Props = {
   permission: string

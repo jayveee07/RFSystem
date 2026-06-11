@@ -20,22 +20,23 @@ export function TransactionsPage() {
     getCurrentCompanyId().then(setCompanyId)
   }, [])
 
-  const { data: txData, isLoading } = useQuery({
+  const { data: txData, isLoading, error } = useQuery({
     queryKey: ['transactions', companyId],
     queryFn: async () => {
-      const result = await transactionsApi.list({ companyId })
+      const params = companyId ? { companyId } : {}
+      const result = await transactionsApi.list(params)
       if (result.data.length === 0 && companyId) {
-        const fallback = await transactionsApi.list({})
-        return fallback
+        return await transactionsApi.list({}).catch(() => result)
       }
       return result
     },
-    enabled: !!companyId && activeTab === 'list',
+    enabled: activeTab === 'list',
+    retry: 1,
   })
 
   const { data: duplicates } = useQuery({
     queryKey: ['tx-duplicates', companyId],
-    queryFn: () => transactionsApi.detectDuplicates(companyId),
+    queryFn: () => transactionsApi.detectDuplicates(companyId || 'none'),
     enabled: !!companyId && activeTab === 'duplicates',
   })
 
@@ -62,28 +63,45 @@ export function TransactionsPage() {
       </div>
 
       {activeTab === 'list' && (
-        <Card title="Transaction History" subtitle={companyId ? `Company filter: ${companyId}` : 'Company filter: (not resolved)'}>
+        <Card title="Transaction History" subtitle={companyId ? `Company filter: ${companyId}` : 'Showing all transactions'}>
 
-          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
-            <thead>
-              <tr className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                <th className="pb-3">Date</th>
-                <th className="pb-3">Reference</th>
-                <th className="pb-3">Amount</th>
-                <th className="pb-3">Status</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-              {txData?.data.map((tx) => (
-                <tr key={tx.id} className="text-sm">
-                  <td className="py-3">{tx.transaction_date}</td>
-                  <td className="py-3 font-mono">{tx.reference_number}</td>
-                  <td className="py-3">${tx.amount}</td>
-                  <td className="py-3"><Badge variant={tx.status === 'reconciled' ? 'success' : 'warning'}>{tx.status}</Badge></td>
+          {isLoading ? (
+            <div className="flex justify-center py-8">
+              <svg className="animate-spin h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+              </svg>
+            </div>
+          ) : error ? (
+            <div className="text-center py-8">
+              <p className="text-red-500 text-sm">Failed to load transactions.</p>
+              <p className="text-gray-400 text-xs mt-1">{error instanceof Error ? error.message : 'Unknown error'}</p>
+              <button onClick={() => window.location.reload()} className="mt-3 text-xs text-blue-600 hover:underline">Retry</button>
+            </div>
+          ) : !txData || txData.data.length === 0 ? (
+            <div className="text-center py-8 text-gray-500 text-sm">No transactions found.</div>
+          ) : (
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
+              <thead>
+                <tr className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="pb-3 pr-4">Date</th>
+                  <th className="pb-3 pr-4">Reference</th>
+                  <th className="pb-3 pr-4">Amount</th>
+                  <th className="pb-3">Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+                {txData.data.map((tx) => (
+                  <tr key={tx.id} className="text-sm">
+                    <td className="py-3 pr-4">{tx.transaction_date}</td>
+                    <td className="py-3 pr-4 font-mono">{tx.reference_number}</td>
+                    <td className="py-3 pr-4">${tx.amount}</td>
+                    <td className="py-3"><Badge variant={tx.status === 'reconciled' ? 'success' : 'warning'}>{tx.status}</Badge></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </Card>
       )}
 

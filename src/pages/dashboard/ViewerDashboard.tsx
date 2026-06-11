@@ -29,7 +29,7 @@ export function ViewerDashboard() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Viewer Dashboard</h1>
-        <p className="text-gray-500 mt-1">Read-only access to dashboards, reconciliations, and reports.</p>
+        <p className="text-gray-500 dark:text-gray-400 mt-1">Read-only access to dashboards, reconciliations, and reports.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -46,21 +46,21 @@ export function ViewerDashboard() {
 
       <Card title="Latest Reports">
         {loadingReports ? (
-          <p className="text-gray-500">Loading recent reports...</p>
+          <p className="text-gray-500 dark:text-gray-400">Loading recent reports...</p>
         ) : reports?.length ? (
           <div className="space-y-3">
             {reports.slice(0, 5).map((report) => (
               <div key={report.id} className="flex items-center justify-between gap-3 rounded-lg border border-gray-200 dark:border-gray-800 p-3">
                 <div>
                   <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{report.name}</p>
-                  <p className="text-xs text-gray-500">{report.format.toUpperCase()} • {report.status}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{report.format.toUpperCase()} • {report.status}</p>
                 </div>
                 <Badge variant={report.status === 'completed' ? 'success' : report.status === 'failed' ? 'danger' : 'warning'}>{report.status}</Badge>
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-gray-500">No recent reports available.</p>
+          <p className="text-gray-500 dark:text-gray-400">No recent reports available.</p>
         )}
       </Card>
     </div>

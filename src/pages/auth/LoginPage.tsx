@@ -31,7 +31,7 @@ export function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 px-4">
       <button
         onClick={toggle}
         className="absolute top-6 right-6 p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 dark:text-gray-500 dark:hover:text-gray-400 transition-colors"
@@ -47,25 +47,19 @@ export function LoginPage() {
           </svg>
         )}
       </button>
-      <div className="w-full max-w-md">
-        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 p-8">
-          <div className="text-center mb-8">
-            <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-            </div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Financial Reconciliation System</h1>
-            <p className="text-gray-500 dark:text-gray-400 mt-2">Sign in to your account</p>
-          </div>
-
+      <div className="w-full max-w-sm">
+        <div className="text-center mb-8">
+          <img src="/Logo_FRS.png" alt="FRS" className="w-14 h-14 rounded-xl mx-auto mb-4" />
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Financial Reconciliation System</h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">Sign in to your account</p>
+        </div>
+        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-6">
           <form onSubmit={handleSubmit} className="space-y-4">
             <Input label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@company.com" required />
             <Input label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password" required />
             {error && <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 rounded-lg p-3">{error}</p>}
             <Button type="submit" loading={loading} className="w-full">Sign In</Button>
           </form>
-
           <div className="mt-6 text-center space-y-2">
             <Link to="/forgot-password" className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">Forgot password?</Link>
             <p className="text-sm text-gray-500 dark:text-gray-400">

@@ -63,10 +63,16 @@ export function ExceptionsPage() {
     onError: () => toast.error('Failed to update exception'),
   })
 
-  const addComment = () => {
-    if (!commentDraft.trim()) return
-    setComments((prev) => [commentDraft.trim(), ...prev])
-    setCommentDraft('')
+  const addComment = async () => {
+    if (!commentDraft.trim() || !selectedException) return
+    try {
+      await exceptionsApi.addComment(selectedException.id, '', commentDraft.trim())
+      setComments((prev) => [commentDraft.trim(), ...prev])
+      setCommentDraft('')
+      toast.success('Comment added')
+    } catch {
+      toast.error('Failed to add comment')
+    }
   }
 
   const columns = [
@@ -94,8 +100,8 @@ export function ExceptionsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Exception Management</h1>
-        <p className="text-gray-500 mt-1">Track and resolve reconciliation discrepancies</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Exception Management</h1>
+        <p className="text-gray-500 dark:text-gray-400 mt-1">Track and resolve reconciliation discrepancies</p>
       </div>
 
       <Card>
@@ -121,7 +127,7 @@ export function ExceptionsPage() {
       <Modal isOpen={showResolve} onClose={() => { setShowResolve(false); setSelectedException(null) }} title="Resolve Exception" size="md">
         {selectedException && (
           <div className="space-y-4">
-            <div className="bg-gray-50 rounded-lg p-4 space-y-2">
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 space-y-2">
               <p><span className="font-medium text-gray-700">Type:</span> {selectedException.exception_type}</p>
               <p><span className="font-medium text-gray-700">Description:</span> {selectedException.description}</p>
               {selectedException.expected_amount && <p><span className="font-medium text-gray-700">Expected:</span> ${selectedException.expected_amount.toLocaleString()}</p>}
@@ -149,7 +155,7 @@ export function ExceptionsPage() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Resolution Notes</label>
               <textarea
-                className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="block w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 rows={4}
                 value={resolution.notes}
                 onChange={(e) => setResolution({ ...resolution, notes: e.target.value })}
@@ -161,7 +167,7 @@ export function ExceptionsPage() {
               <div className="rounded-xl border border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-950">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Internal Comments</label>
                 <textarea
-                  className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="block w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   rows={3}
                   value={commentDraft}
                   onChange={(e) => setCommentDraft(e.target.value)}
@@ -178,12 +184,12 @@ export function ExceptionsPage() {
                     {comment}
                   </div>
                 )) : (
-                  <p className="text-sm text-gray-500">No comments added yet.</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">No comments added yet.</p>
                 )}
               </div>
             </div>
             <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:items-center sm:justify-between">
-              <div className="text-sm text-gray-500">{readOnly ? 'Read-only viewer access. You can review exception details but cannot save changes.' : 'You can update status, assign, and resolve this exception.'}</div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">{readOnly ? 'Read-only viewer access. You can review exception details but cannot save changes.' : 'You can update status, assign, and resolve this exception.'}</div>
               <div className="flex flex-wrap gap-3">
                 <Button variant="secondary" onClick={() => { setShowResolve(false); setSelectedException(null) }}>Cancel</Button>
                 <Button onClick={() => resolveMutation.mutate({ status: resolution.status, resolution_notes: resolution.notes, assigned_to: resolution.assigned_to })} loading={resolveMutation.isPending} disabled={readOnly}>Save Resolution</Button>

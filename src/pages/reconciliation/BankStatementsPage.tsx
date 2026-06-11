@@ -81,8 +81,8 @@ export function BankStatementsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Bank Statements</h1>
-          <p className="text-gray-500 mt-1">Upload and manage bank statements for reconciliation</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Bank Statements</h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">Upload and manage bank statements for reconciliation</p>
         </div>
         <Button disabled={readOnly} onClick={() => setShowCreate(true)}>Add Statement</Button>
       </div>

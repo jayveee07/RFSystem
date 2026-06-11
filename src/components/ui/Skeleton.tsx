@@ -7,7 +7,7 @@ export function Skeleton({ className = 'h-4 w-full', count = 1 }: SkeletonProps)
   return (
     <>
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className={`animate-pulse bg-gray-200 rounded ${className}`} />
+        <div key={i} className={`animate-pulse bg-gray-200 dark:bg-gray-700 rounded ${className}`} />
       ))}
     </>
   )

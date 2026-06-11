@@ -47,6 +47,12 @@ const snap = <T>(d: DocumentData, id: string) => ({ id, ...d } as unknown as Wit
 export const authApi = {
   signUp: async (email: string, password: string, fullName: string) => {
     const cred = await createUserWithEmailAndPassword(auth, email, password)
+
+    const rolesSnap = await getDocs(query(col('roles'), where('name', '==', 'Administrator'), limit(1)))
+    const adminRole = rolesSnap.docs.length > 0
+      ? { id: rolesSnap.docs[0].id, ...rolesSnap.docs[0].data() } as Role
+      : { id: '', name: 'Administrator', description: 'Full system access', is_system: true } as Role
+
     const c = await addDoc(col('companies'), {
       name: `${fullName}'s Company`,
       code: `C${Date.now().toString(36).toUpperCase()}`,
@@ -60,6 +66,7 @@ export const authApi = {
       email,
       full_name: fullName,
       company_id: c.id,
+      roles: [adminRole],
       is_active: true,
       mfa_enabled: false,
       created_at: new Date().toISOString(),
@@ -280,11 +287,12 @@ export const transactionsApi = {
     
     if (params?.status) constraints.push(where('status', '==', params.status))
     if (params?.bankAccountId) constraints.push(where('bank_account_id', '==', params.bankAccountId))
-    constraints.push(orderBy('transaction_date', 'desc'))
     
     const q = query(col('transactions'), ...constraints)
     const s = await getDocs(q)
     const data = s.docs.map(d => snap<Transaction>(d.data(), d.id))
+    
+    data.sort((a, b) => new Date(b.transaction_date).getTime() - new Date(a.transaction_date).getTime())
     
     const all = params?.limit ? data.slice(params.offset || 0, (params.offset || 0) + params.limit) : data
     return { data: all, count: data.length }

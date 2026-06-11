@@ -52,8 +52,8 @@ export function CompaniesPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Companies</h1>
-          <p className="text-gray-500 mt-1">Multi-company support - manage separate ledgers</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Companies</h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">Multi-company support - manage separate ledgers</p>
         </div>
         <Button disabled={readOnly} onClick={() => setShowCreate(true)}>Add Company</Button>
       </div>

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Card } from '../components/ui/Card'
-import { Badge } from '../components/ui/Badge'
-import { analyticsApi, aiApi } from './api'
-import { getCurrentCompanyId } from './company'
+import { Card } from '../../components/ui/Card'
+import { Badge } from '../../components/ui/Badge'
+import { analyticsApi, aiApi } from '../../lib/api'
+import { getCurrentCompanyId } from '../../lib/company'
 
 type AnalyticsTrend = {
   month: string

@@ -29,24 +29,24 @@ export function CFOExecutiveDashboard() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">CFO Executive Dashboard</h1>
-        <p className="text-gray-500 mt-1">High-level finance visibility for executive decision making.</p>
+        <p className="text-gray-500 dark:text-gray-400 mt-1">High-level finance visibility for executive decision making.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
-          <p className="text-sm text-gray-500">Cash Balance</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Cash Balance</p>
           <p className="text-3xl font-bold text-indigo-600">${stats?.bank_balances?.toLocaleString() ?? 0}</p>
         </Card>
         <Card>
-          <p className="text-sm text-gray-500">Match Rate</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Match Rate</p>
           <p className="text-3xl font-bold text-green-600">{stats ? `${Math.round((stats.total_matched / Math.max(stats.total_transactions, 1)) * 100)}%` : '0%'}</p>
         </Card>
         <Card>
-          <p className="text-sm text-gray-500">Exception Rate</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Exception Rate</p>
           <p className="text-3xl font-bold text-red-600">{stats ? `${Math.round((stats.total_unmatched / Math.max(stats.total_transactions, 1)) * 100)}%` : '0%'}</p>
         </Card>
         <Card>
-          <p className="text-sm text-gray-500">Auto Reconciliation</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Auto Reconciliation</p>
           <p className="text-3xl font-bold text-blue-600">{metrics?.auto_reconciliation_rate ?? 'N/A'}</p>
         </Card>
       </div>
@@ -54,7 +54,7 @@ export function CFOExecutiveDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card title="Financial Trends">
           {loadingStats ? (
-            <p className="text-gray-500">Loading trend summary...</p>
+            <p className="text-gray-500 dark:text-gray-400">Loading trend summary...</p>
           ) : (
             <div className="space-y-2 text-sm text-gray-600">
               <p>Total transactions: {stats?.total_transactions ?? 0}</p>
@@ -67,7 +67,7 @@ export function CFOExecutiveDashboard() {
 
         <Card title="Executive Summary">
           {loadingMetrics ? (
-            <p className="text-gray-500">Loading analytics...</p>
+            <p className="text-gray-500 dark:text-gray-400">Loading analytics...</p>
           ) : (
             <div className="space-y-3">
               <div className="flex items-center justify-between">

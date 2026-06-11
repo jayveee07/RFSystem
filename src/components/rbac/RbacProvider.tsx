@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 import { useUserProfile } from '../../lib/profile'
-import type { Permission, Role } from '../../types'
 import { isViewer } from '../../lib/rbac'
 import { ReadOnlyProvider } from './ReadOnlyGuard'
 

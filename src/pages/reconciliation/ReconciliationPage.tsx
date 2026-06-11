@@ -91,22 +91,22 @@ export function ReconciliationPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Bank Reconciliation</h1>
-        <p className="text-gray-500 mt-1">Reconcile bank statements against ledger transactions</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Bank Reconciliation</h1>
+        <p className="text-gray-500 dark:text-gray-400 mt-1">Reconcile bank statements against ledger transactions</p>
       </div>
 
       <Card title="Reconciliation Queue" subtitle="Track reconciliation batches and approval readiness">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900">
-            <p className="text-sm text-gray-500">Drafts</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Drafts</p>
             <p className="mt-2 text-3xl font-semibold text-gray-900 dark:text-gray-100">{draftCount}</p>
           </div>
           <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900">
-            <p className="text-sm text-gray-500">Pending Approval</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Pending Approval</p>
             <p className="mt-2 text-3xl font-semibold text-yellow-600">{pendingCount}</p>
           </div>
           <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900">
-            <p className="text-sm text-gray-500">Approved</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Approved</p>
             <p className="mt-2 text-3xl font-semibold text-green-600">{approvedCount}</p>
           </div>
         </div>

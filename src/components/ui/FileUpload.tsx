@@ -31,7 +31,7 @@ export function FileUpload({ accept, multiple, onUpload, label = 'Upload files',
       onDragLeave={() => setDragOver(false)}
       onDrop={handleDrop}
       onClick={() => ref.current?.click()}
-      className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${dragOver ? 'border-blue-400 bg-blue-50' : 'border-gray-300 hover:border-blue-400 hover:bg-gray-50'}`}
+      className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${dragOver ? 'border-blue-400 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-500' : 'border-gray-300 dark:border-gray-600 hover:border-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800'}`}
     >
       <input ref={ref} type="file" accept={accept} multiple={multiple} onChange={handleChange} className="hidden" />
       {loading ? (
@@ -41,11 +41,11 @@ export function FileUpload({ accept, multiple, onUpload, label = 'Upload files',
         </svg>
       ) : (
         <>
-          <svg className="w-10 h-10 text-gray-400 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-10 h-10 text-gray-400 dark:text-gray-500 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
           </svg>
-          <p className="text-sm font-medium text-gray-700">{label}</p>
-          <p className="text-xs text-gray-500 mt-1">Drag & drop or click to browse</p>
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-200">{label}</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Drag & drop or click to browse</p>
         </>
       )}
     </div>

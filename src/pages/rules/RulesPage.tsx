@@ -133,8 +133,8 @@ export function RulesPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Rules Engine</h1>
-          <p className="text-gray-500 mt-1">Configure automated matching rules for reconciliation</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Rules Engine</h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">Configure automated matching rules for reconciliation</p>
         </div>
         <Button disabled={readOnly} onClick={() => { resetForm(); setShowCreate(true) }}>Create Rule</Button>
       </div>

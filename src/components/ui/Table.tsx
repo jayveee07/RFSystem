@@ -30,34 +30,34 @@ export function Table<T>({ columns, data, loading, onRowClick, emptyMessage }: T
   if (data.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">{emptyMessage || 'No data found'}</p>
+        <p className="text-gray-500 dark:text-gray-400">{emptyMessage || 'No data found'}</p>
       </div>
     )
   }
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
+      <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
+        <thead className="bg-gray-50 dark:bg-gray-800/50">
           <tr>
             {columns.map((col) => (
-              <th key={col.key} className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th key={col.key} className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                 {col.header}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
           {data.map((item, idx) => {
             const row = item as Record<string, unknown>
             return (
               <tr
                 key={(row.id as string) || idx}
-                className={`${onRowClick ? 'cursor-pointer hover:bg-gray-50' : ''} transition-colors`}
+                className={`${onRowClick ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800' : ''} transition-colors`}
                 onClick={() => onRowClick?.(item)}
               >
                 {columns.map((col) => (
-                  <td key={col.key} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td key={col.key} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                     {col.render ? col.render(item) : (row[col.key] as React.ReactNode) || '-'}
                   </td>
                 ))}

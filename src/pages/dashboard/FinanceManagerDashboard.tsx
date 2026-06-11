@@ -25,7 +25,7 @@ export function FinanceManagerDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card title="Pending Approvals">
           <div className="text-3xl font-bold text-orange-600">{stats?.pending_reconciliations ?? 0}</div>
-          <p className="text-xs text-gray-500 mt-1">Requires your review</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Requires your review</p>
         </Card>
         <Card title="Completed This Month">
           <div className="text-3xl font-bold text-green-600">{stats?.completed_reconciliations ?? 0}</div>
