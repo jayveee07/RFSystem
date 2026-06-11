@@ -17,7 +17,7 @@ import type {
   ReconciliationMatch, Reconciliation, Exception, ReconciliationRule,
   ApprovalWorkflow, ApprovalRequest, AuditLog, Notification,
   Report, Integration, Permission, Role, PaymentGatewayTransaction, Invoice,
-  DashboardStats,
+  DashboardStats, PurchaseOrder,
 } from '../types'
 
 type WithId<T> = T & { id: string }
@@ -796,6 +796,42 @@ export const invoicesApi = {
 
   delete: async (id: string) => {
     await deleteDoc(docRef('invoices', id))
+  },
+}
+
+// Purchase Orders
+export const purchaseOrdersApi = {
+  list: async (companyId?: string) => {
+    const constraints: QueryConstraint[] = [orderBy('order_date', 'desc')]
+    if (companyId) constraints.push(where('company_id', '==', companyId))
+    const q = query(col('purchase_orders'), ...constraints)
+    const s = await getDocs(q)
+    return s.docs.map(d => snap<PurchaseOrder>(d.data(), d.id))
+  },
+
+  get: async (id: string) => {
+    const d = await getDoc(docRef('purchase_orders', id))
+    if (!d.exists()) throw new Error('Purchase order not found')
+    return snap<PurchaseOrder>(d.data(), d.id)
+  },
+
+  create: async (data: Partial<PurchaseOrder>) => {
+    const now = new Date().toISOString()
+    const r = await addDoc(col('purchase_orders'), {
+      ...data,
+      created_at: now,
+      updated_at: now,
+    })
+    return purchaseOrdersApi.get(r.id)
+  },
+
+  update: async (id: string, updates: Partial<PurchaseOrder>) => {
+    await updateDoc(docRef('purchase_orders', id), { ...updates, updated_at: new Date().toISOString() })
+    return purchaseOrdersApi.get(id)
+  },
+
+  delete: async (id: string) => {
+    await deleteDoc(docRef('purchase_orders', id))
   },
 }
 

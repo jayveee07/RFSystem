@@ -9,6 +9,7 @@ import { BankStatementsPage } from './pages/reconciliation/BankStatementsPage'
 import { ReconciliationPage } from './pages/reconciliation/ReconciliationPage'
 import { PaymentGatewayPage } from './pages/reconciliation/PaymentGatewayPage'
 import { InvoicesPage } from './pages/reconciliation/InvoicesPage'
+import { PurchaseOrdersPage } from './pages/purchase-orders/PurchaseOrdersPage'
 import { ExceptionsPage } from './pages/exceptions/ExceptionsPage'
 import { RulesPage } from './pages/rules/RulesPage'
 import { ApprovalsPage } from './pages/approvals/ApprovalsPage'
@@ -39,6 +40,7 @@ export default function App() {
         <Route path="/reconciliation" element={<ReconciliationPage />} />
         <Route path="/payment-gateway" element={<PaymentGatewayPage />} />
         <Route path="/invoices" element={<InvoicesPage />} />
+        <Route path="/purchase-orders" element={<PurchaseOrdersPage />} />
         <Route path="/exceptions" element={<ExceptionsPage />} />
         <Route path="/rules" element={<RulesPage />} />
         <Route path="/approvals" element={<ApprovalsPage />} />
