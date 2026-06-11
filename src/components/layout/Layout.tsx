@@ -51,7 +51,7 @@ export function Layout() {
   if (!user) return <Navigate to="/login" replace />
 
   return (
-    <UserProfileProvider>
+    <UserProfileProvider uid={user.uid}>
       <AuthenticatedLayout />
     </UserProfileProvider>
   )

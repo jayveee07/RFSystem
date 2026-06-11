@@ -1,7 +1,6 @@
-import { createContext, createElement, useContext, useEffect, useState, type ReactNode } from 'react'
+import { createContext, createElement, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
 import { doc, getDoc } from 'firebase/firestore'
-import { auth, db } from './firebase'
-import { onAuthStateChanged, type User as FirebaseUser } from 'firebase/auth'
+import { db } from './firebase'
 import { getUserPermissions } from './rbac'
 import type { Role, User } from '../types'
 
@@ -14,26 +13,24 @@ type UserProfile = {
 
 const UserProfileContext = createContext<UserProfile | null>(null)
 
-export function UserProfileProvider({ children }: { children: ReactNode }) {
+export function UserProfileProvider({ children, uid }: { children: ReactNode; uid: string }) {
   const [state, setState] = useState<UserProfile>({
     loading: true,
     user: null,
     permissions: [],
     roles: [],
   })
+  const fetched = useRef(false)
 
   useEffect(() => {
+    if (fetched.current) return
+    fetched.current = true
+
     let alive = true
 
-    async function loadUser(u: FirebaseUser | null) {
-      if (!alive) return
-      if (!u) {
-        setState({ loading: false, user: null, permissions: [], roles: [] })
-        return
-      }
-
+    async function loadUser() {
       try {
-        const snap = await getDoc(doc(db, 'users', u.uid))
+        const snap = await getDoc(doc(db, 'users', uid))
         if (!snap.exists()) {
           if (!alive) return
           setState({ loading: false, user: null, permissions: [], roles: [] })
@@ -58,7 +55,7 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
           : getUserPermissions({ ...data, roles } as Partial<User>)
 
         const user: User = {
-          id: data.id || u.uid,
+          id: data.id || uid,
           email: data.email || '',
           full_name: data.full_name || '',
           is_active: data.is_active ?? true,
@@ -76,12 +73,9 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
       }
     }
 
-    const unsubscribe = onAuthStateChanged(auth, loadUser)
-    return () => {
-      alive = false
-      unsubscribe()
-    }
-  }, [])
+    loadUser()
+    return () => { alive = false }
+  }, [uid])
 
   return createElement(UserProfileContext.Provider, { value: state }, children)
 }
