@@ -1,4 +1,4 @@
-import { createContext, createElement, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
+import { createContext, createElement, useContext, useEffect, useState, type ReactNode } from 'react'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from './firebase'
 import { getUserPermissions } from './rbac'
@@ -20,12 +20,8 @@ export function UserProfileProvider({ children, uid }: { children: ReactNode; ui
     permissions: [],
     roles: [],
   })
-  const fetched = useRef(false)
 
   useEffect(() => {
-    if (fetched.current) return
-    fetched.current = true
-
     let alive = true
 
     async function loadUser() {
