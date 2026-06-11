@@ -5,12 +5,14 @@ import { doc, getDoc } from 'firebase/firestore'
 import { auth, db } from '../../lib/firebase'
 import { notificationsApi } from '../../lib/api'
 import { useTheme } from '../../lib/theme'
+import { ConfirmDialog } from '../ui/ConfirmDialog'
 
 export function Navbar() {
   const { mode, toggle } = useTheme()
   const [user, setUser] = useState<{ uid?: string; email?: string; full_name?: string } | null>(null)
   const [unreadCount, setUnreadCount] = useState(0)
   const [showDropdown, setShowDropdown] = useState(false)
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (u) => {
@@ -41,6 +43,11 @@ export function Navbar() {
   }, [])
 
   const handleSignOut = async () => {
+    setShowDropdown(false)
+    setShowLogoutConfirm(true)
+  }
+
+  const confirmSignOut = async () => {
     await signOut(auth)
     window.location.href = '/login'
   }
@@ -102,6 +109,15 @@ export function Navbar() {
           )}
         </div>
       </div>
+      <ConfirmDialog
+        isOpen={showLogoutConfirm}
+        onClose={() => setShowLogoutConfirm(false)}
+        onConfirm={confirmSignOut}
+        title="Sign Out"
+        message="Are you sure you want to sign out?"
+        confirmLabel="Sign Out"
+        variant="danger"
+      />
     </header>
   )
 }
