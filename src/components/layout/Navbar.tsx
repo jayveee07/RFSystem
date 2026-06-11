@@ -13,6 +13,7 @@ export function Navbar() {
   const [unreadCount, setUnreadCount] = useState(0)
   const [showDropdown, setShowDropdown] = useState(false)
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
+  const [signingOut, setSigningOut] = useState(false)
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (u) => {
@@ -48,6 +49,7 @@ export function Navbar() {
   }
 
   const confirmSignOut = async () => {
+    setSigningOut(true)
     await signOut(auth)
     window.location.href = '/login'
   }
@@ -117,6 +119,7 @@ export function Navbar() {
         message="Are you sure you want to sign out?"
         confirmLabel="Sign Out"
         variant="danger"
+        loading={signingOut}
       />
     </header>
   )
