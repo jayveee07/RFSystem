@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { createContext, createElement, useContext, useEffect, useState, type ReactNode } from 'react'
 import { doc, getDoc } from 'firebase/firestore'
 import { auth, db } from './firebase'
 import { onAuthStateChanged, type User as FirebaseUser } from 'firebase/auth'
@@ -12,7 +12,9 @@ type UserProfile = {
   roles: Role[]
 }
 
-export function useUserProfile(): UserProfile {
+const UserProfileContext = createContext<UserProfile | null>(null)
+
+export function UserProfileProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<UserProfile>({
     loading: true,
     user: null,
@@ -81,6 +83,14 @@ export function useUserProfile(): UserProfile {
     }
   }, [])
 
-  return state
+  return createElement(UserProfileContext.Provider, { value: state }, children)
+}
+
+export function useUserProfile(): UserProfile {
+  const ctx = useContext(UserProfileContext)
+  if (!ctx) {
+    throw new Error('useUserProfile must be used within a UserProfileProvider')
+  }
+  return ctx
 }
 
